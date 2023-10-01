@@ -1,0 +1,38 @@
+Parameters:
+  DomainName:
+    Type: String
+    Default: sample-xasmklasdlmkasd
+
+Resources:
+  StudioDomain:
+    Type: AWS::SageMaker::Domain
+    Properties:
+      AuthMode: "IAM"
+      DefaultSpaceSettings:
+        ExecutionRole: "arn:aws:iam::623127157773:role/sagemaker-admin"
+        SecurityGroups:
+          - sg-bac1acf7
+      DefaultUserSettings:
+        ExecutionRole: "arn:aws:iam::623127157773:role/sagemaker-admin"
+        SecurityGroups:
+          - sg-bac1acf7
+      DomainName: !Ref DomainName
+      DomainSettings:
+        SecurityGroupIds:
+          - sg-bac1acf7
+      SubnetIds:
+        - subnet-2c5cea4a
+      VpcId: "vpc-8fb875e9" 
+  HerleySageMaker:
+    Type: AWS::SageMaker::UserProfile
+    Properties:
+      DomainId: !GetAtt StudioDomain.DomainId
+      UserProfileName: "herley"
+      UserSettings:
+        ExecutionRole: "arn:aws:iam::623127157773:role/sagemaker-admin"
+        SecurityGroups:
+          - sg-bac1acf7
+
+Outputs:
+  Domainer:
+    Value: !GetAtt StudioDomain.DomainId
